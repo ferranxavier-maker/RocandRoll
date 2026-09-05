@@ -780,6 +780,7 @@ details.collapsible-section > summary:hover { filter: brightness(0.97); }
   <div class="subtab" data-tab="recordsglobal" onclick="showTab('recordsglobal',event)">📈 Records</div>
   <div class="subtab" data-tab="miscelania" onclick="showTab('miscelania',event)">🗃️ Miscelánea</div>
   <div class="subtab" data-tab="rendimientoglobal" onclick="showTab('rendimientoglobal',event)">📊 Rendimiento</div>
+  <div class="subtab" data-tab="statsglobal" onclick="showTab('statsglobal',event)">📊 Stats</div>
   <div class="subtab" data-tab="primeglobal" onclick="showTab('primeglobal',event)">⭐ Prime</div>
   <div class="subtab" data-tab="bitacoraglobal" onclick="showTab('bitacoraglobal',event)">📓 Bitácora</div>
 </div>
@@ -790,6 +791,7 @@ details.collapsible-section > summary:hover { filter: brightness(0.97); }
 <div id="tab-recordsglobal" class="content" style="display:none"></div>
 <div id="tab-miscelania" class="content" style="display:none"></div>
 <div id="tab-rendimientoglobal" class="content" style="display:none"></div>
+<div id="tab-statsglobal" class="content" style="display:none"></div>
 <div id="tab-handicap" class="content" style="display:none"></div>
 <div id="tab-tabla" class="content" style="display:none"></div>
 <div id="tab-records" class="content" style="display:none"></div>
@@ -821,11 +823,10 @@ const EQUIPO=[
   {num:7,apodo:"Cabra",nombre:"Jordi García Cabra",licencia:"ACPP032229",talla:"XL",desde:"2024",nac:"1973-07-11"},
   {num:8,apodo:"David",nombre:"David Peñalver Llopis",licencia:"ACPP030479",talla:"XXL",desde:"2025",nac:"1969-12-26"},
   {num:9,apodo:"Manolo",nombre:"Manuel Gómez Ramirez",licencia:"ACPP001765",talla:"M",desde:"2025",nac:"1958-11-06"},
-  {num:10,apodo:"Kike",nombre:"Enrique Caro García",licencia:"ACPP017344",talla:"M",desde:"2025",nac:""},
+  {num:10,apodo:"Kike",nombre:"Enrique Caro García",licencia:"ACPP017344",talla:"M",desde:"2025",nac:"1951-04-06"},
   {num:11,apodo:"Pique",nombre:"Oscar Pique",licencia:"ACPP023317",talla:"XXL",desde:"2026",nac:"1974-02-24"},
-  {num:12,apodo:"Albert",nombre:"Albert Bedos Torrens",licencia:"ACPP034073",talla:"M",desde:"2026",nac:""},
-  {num:13,apodo:"Jaén",nombre:"Enrique Jaen López",licencia:"ACPP003847",talla:"XXL",desde:"2026",nac:"1964-01-29"},
-  {num:99,apodo:"Millán",nombre:"José Millán Navarrete",licencia:"",talla:"",desde:"2023",nac:""}
+  {num:12,apodo:"Albert",nombre:"Albert Bedos Torrens",licencia:"ACPP034073",talla:"M",desde:"2026",nac:"1977-09-05"},
+  {num:13,apodo:"Jaén",nombre:"Enrique Jaen López",licencia:"ACPP003847",talla:"XXL",desde:"2026",nac:"1964-01-29"}
 ];
 const COLORS={Capi:"#c8f0dc",Sucio:"#c8e4f8",Bofa:"#fde8b4",Finestres:"#d8d4fc",Luiqui:"#fcd8c4",Alvaro:"#f8d4e4",Cabra:"#d4edbc",David:"#f4d0d0",Manolo:"#dcdcd4",Kike:"#fde0a8",Pique:"#c4d8f4",Albert:"#f5f3ff",Jaén:"#bfe8e2"};
 
@@ -839,7 +840,7 @@ const TRAMOS_FIJOS={
   front:{label:'H1-H9',idxs:[0,1,2,3,4,5,6,7,8]},
   back:{label:'H10-H18',idxs:[9,10,11,12,13,14,15,16,17]}
 };
-const PLAYERS=["Capi","Sucio","Bofa","Finestres","Luiqui","Alvaro","Cabra","David","Manolo","Kike","Pique","Albert","Jaén"];
+const PLAYERS = EQUIPO.map(j => j.apodo);
 
 // ═══════════════════════════════════════════════════════════════════════
 // ABANDONOS REGISTRADOS — notación histórica fija escrita por Capi
@@ -1215,7 +1216,9 @@ const HM_DATA={
   "59_Capi":[2,3,4,3,3,3,3,3,3,3,3,3,3,2,3,4,2,4],"59_Sucio":[3,3,3,3,4,3,4,3,3,3,4,2,2,3,4,3,4,3],"59_Bofa":[5,3,4,3,3,3,5,3,3,3,4,4,3,3,4,3,3,2],"59_Finestres":[4,3,3,3,4,3,4,4,4,2,3,3,3,3,5,3,3,4],"59_Albert":[4,3,3,3,3,3,4,3,3,4,3,3,2,3,3,3,3,3],"59_Alvaro":[4,3,3,4,3,3,3,5,3,3,4,2,3,3,4,3,3,5],"59_Cabra":[4,2,3,3,3,2,4,3,4,2,5,3,4,3,2,3,3,4],"59_Jaén":[3,3,3,3,4,3,3,2,3,3,2,2,4,4,2,4,4,4],
   "60_Capi":[4,3,3,2,3,3,3,4,5,2,4,3,3,3,5,3,3,3],"60_Sucio":[4,2,3,3,3,3,3,2,4,2,4,3,3,2,2,4,4,3],"60_Finestres":[4,4,3,3,2,3,5,3,3,4,3,5,2,4,3,3,3,3],"60_Luiqui":[4,3,2,3,3,2,4,3,3,3,4,4,2,4,3,3,2,4],"60_Alvaro":[3,4,5,3,4,3,4,2,3,4,4,4,5,3,5,3,3,3],"60_Cabra":[3,4,4,3,2,3,3,4,3,4,3,3,3,3,3,3,3,3],"60_Jaén":[4,2,3,3,3,4,3,3,4,2,3,2,2,3,2,4,3,4],
   "61_Capi":[3,5,3,2,3,3,4,4,4,3,2,4,2,3,2,3,4,3],"61_Sucio":[4,3,3,3,4,3,3,3,2,4,4,3,4,3,2,4,3,3],"61_Albert":[4,3,2,3,4,4,4,4,3,3,2,4,4,3,5,4,4,3],"61_Luiqui":[4,4,2,3,3,3,4,3,3,3,3,3,3,3,2,3,2,4],"61_Alvaro":[3,3,4,5,2,3,3,4,4,3,3,3,4,3,3,3,4,3],"61_Manolo":[3,5,4,3,2,3,3,4,3,3,4,3,3,3,4,3,3,4],"61_Jaén":[4,3,3,3,3,3,4,3,4,2,3,3,3,3,2,4,2,4],
-  "62_Capi":[3,4,3,4,5,4,3,3,3,3,3,4,3,4,2,4,3,2],"62_Sucio":[3,5,3,3,2,2,4,5,3,2,3,3,2,4,3,4,4,3],"62_Finestres":[4,4,3,2,3,3,3,3,4,4,4,3,3,3,3,3,3,4],"62_Albert":[4,3,3,4,4,2,4,3,3,3,3,2,4,4,2,2,3,3],"62_Luiqui":[3,4,3,4,3,3,4,3,4,3,3,3,4,3,3,4,4,2],"62_Alvaro":[3,4,4,2,2,4,3,3,5,2,3,2,3,3,4,2,4,3],"62_Manolo":[4,4,5,3,3,4,4,4,5,3,3,3,3,5,4,5,4,5],"62_Jaén":[3,3,3,3,5,3,3,3,3,3,3,3,3,3,3,2,3,3]
+  "62_Capi":[3,4,3,4,5,4,3,3,3,3,3,4,3,4,2,4,3,2],"62_Sucio":[3,5,3,3,2,2,4,5,3,2,3,3,2,4,3,4,4,3],"62_Finestres":[4,4,3,2,3,3,3,3,4,4,4,3,3,3,3,3,3,4],"62_Albert":[4,3,3,4,4,2,4,3,3,3,3,2,4,4,2,2,3,3],"62_Luiqui":[3,4,3,4,3,3,4,3,4,3,3,3,4,3,3,4,4,2],"62_Alvaro":[3,4,4,2,2,4,3,3,5,2,3,2,3,3,4,2,4,3],"62_Manolo":[4,4,5,3,3,4,4,4,5,3,3,3,3,5,4,5,4,5],"62_Jaén":[3,3,3,3,5,3,3,3,3,3,3,3,3,3,3,2,3,3],
+"63_Capi":[3,4,4,3,3,3,4,3,3,3,3,4,3,3,3,5,4,3],"63_Bofa":[4,5,3,3,3,4,4,4,4,3,4,3,5,4,3,5,5,3],"63_Finestres":[3,3,4,3,4,3,4,3,4,3,4,3,3,3,3,3,3,3],"63_Albert":[4,3,4,4,3,3,4,4,3,2,4,3,3,4,3,2,2,3],"63_Luiqui":[5,2,3,2,2,3,3,3,4,3,3,4,4,3,3,3,4,3],"63_Alvaro":[4,3,2,3,4,3,4,4,3,3,4,3,3,4,4,3,4,3],"63_David":[4,4,4,3,3,4,3,3,3,4,4,3,3,3,4,2,4,3],"63_Manolo":[5,4,3,3,4,2,3,4,5,3,5,3,5,3,3,3,3,3],"63_Kike":[4,5,3,2,4,4,3,3,4,2,4,3,3,2,5,3,4,2],
+"64_Capi":[5,3,3,2,3,3,3,3,3,4,3,3,3,3,3,3,2,4],"64_Finestres":[4,3,4,3,3,3,3,3,2,3,3,4,3,3,2,3,3,3],"64_Albert":[4,4,3,3,4,3,4,4,5,3,3,3,3,4,3,5,5,3],"64_Alvaro":[5,4,5,3,3,3,4,2,3,3,3,3,2,4,3,5,3,2],"64_Cabra":[4,3,3,3,5,4,4,3,2,4,5,3,2,2,4,3,3,3],"64_David":[4,3,3,3,5,3,3,5,3,3,5,2,4,4,3,3,3,3],"64_Luiqui":[3,3,3,3,3,3,4,5,3,3,3,2,4,3,3,3,4,3],"64_Kike":[3,2,3,3,3,4,4,4,3,4,4,3,4,3,4,3,2,3],"64_Jaén":[4,4,2,2,3,3,3,3,2,3,3,3,3,3,4,3,3,3]
 };
 
 const RAW_DATA=[
@@ -1348,7 +1351,9 @@ const RAW_DATA=[
 {j:59,f:"28/07/2026",jugador:"Capi",abandono:false},{j:59,f:"28/07/2026",jugador:"Sucio",abandono:false},{j:59,f:"28/07/2026",jugador:"Bofa",abandono:false},{j:59,f:"28/07/2026",jugador:"Finestres",abandono:false},{j:59,f:"28/07/2026",jugador:"Albert",abandono:false},{j:59,f:"28/07/2026",jugador:"Alvaro",abandono:false},{j:59,f:"28/07/2026",jugador:"Cabra",abandono:false},{j:59,f:"28/07/2026",jugador:"Jaén",abandono:false},
 {j:60,f:"04/08/2026",jugador:"Capi",abandono:false},{j:60,f:"04/08/2026",jugador:"Sucio",abandono:false},{j:60,f:"04/08/2026",jugador:"Finestres",abandono:false},{j:60,f:"04/08/2026",jugador:"Luiqui",abandono:false},{j:60,f:"04/08/2026",jugador:"Alvaro",abandono:false},{j:60,f:"04/08/2026",jugador:"Cabra",abandono:false},{j:60,f:"04/08/2026",jugador:"Jaén",abandono:false},
 {j:61,f:"11/08/2026",jugador:"Capi",abandono:false},{j:61,f:"11/08/2026",jugador:"Sucio",abandono:false},{j:61,f:"11/08/2026",jugador:"Albert",abandono:false},{j:61,f:"11/08/2026",jugador:"Luiqui",abandono:false},{j:61,f:"11/08/2026",jugador:"Alvaro",abandono:false},{j:61,f:"11/08/2026",jugador:"Manolo",abandono:false},{j:61,f:"11/08/2026",jugador:"Jaén",abandono:false},
-{j:62,f:"18/08/2026",jugador:"Capi",abandono:false},{j:62,f:"18/08/2026",jugador:"Sucio",abandono:false},{j:62,f:"18/08/2026",jugador:"Finestres",abandono:false},{j:62,f:"18/08/2026",jugador:"Albert",abandono:false},{j:62,f:"18/08/2026",jugador:"Luiqui",abandono:false},{j:62,f:"18/08/2026",jugador:"Alvaro",abandono:false},{j:62,f:"18/08/2026",jugador:"Manolo",abandono:false},{j:62,f:"18/08/2026",jugador:"Jaén",abandono:false}
+{j:62,f:"18/08/2026",jugador:"Capi",abandono:false},{j:62,f:"18/08/2026",jugador:"Sucio",abandono:false},{j:62,f:"18/08/2026",jugador:"Finestres",abandono:false},{j:62,f:"18/08/2026",jugador:"Albert",abandono:false},{j:62,f:"18/08/2026",jugador:"Luiqui",abandono:false},{j:62,f:"18/08/2026",jugador:"Alvaro",abandono:false},{j:62,f:"18/08/2026",jugador:"Manolo",abandono:false},{j:62,f:"18/08/2026",jugador:"Jaén",abandono:false},
+{j:63,f:"25/08/2026",jugador:"Capi",abandono:false},{j:63,f:"25/08/2026",jugador:"Bofa",abandono:false},{j:63,f:"25/08/2026",jugador:"Finestres",abandono:false},{j:63,f:"25/08/2026",jugador:"Albert",abandono:false},{j:63,f:"25/08/2026",jugador:"Luiqui",abandono:false},{j:63,f:"25/08/2026",jugador:"Alvaro",abandono:false},{j:63,f:"25/08/2026",jugador:"David",abandono:false},{j:63,f:"25/08/2026",jugador:"Manolo",abandono:false},{j:63,f:"25/08/2026",jugador:"Kike",abandono:false},
+{j:64,f:"01/09/2026",jugador:"Capi",abandono:false},{j:64,f:"01/09/2026",jugador:"Finestres",abandono:false},{j:64,f:"01/09/2026",jugador:"Albert",abandono:false},{j:64,f:"01/09/2026",jugador:"Alvaro",abandono:false},{j:64,f:"01/09/2026",jugador:"Cabra",abandono:false},{j:64,f:"01/09/2026",jugador:"David",abandono:false},{j:64,f:"01/09/2026",jugador:"Luiqui",abandono:false},{j:64,f:"01/09/2026",jugador:"Kike",abandono:false},{j:64,f:"01/09/2026",jugador:"Jaén",abandono:false}
 ];
 
 // ── Recalcular total/front/back/bir/par/bog/dbl como FÓRMULA derivada de HM ──
@@ -1501,6 +1506,7 @@ function renderTab(t){
   else if(t==='records')renderRecords(el);
   else if(t==='rendimiento')renderRendimiento(el);
   else if(t==='rendimientoglobal')renderRendimientoGlobal(el);
+  else if(t==='statsglobal')renderStatsGlobal(el);
   else if(t==='stats')renderStats(el);
   else if(t==='radiografia')renderRadiografia(el);
   else if(t==='handicap')renderHandicap(el);
@@ -1638,10 +1644,9 @@ function renderInterclubs(el){
   // al equipo, p.ej. Jose Martín), cae al nombre abreviado.
   function apodoIC(name){
     if(!name) return name;
-    if(typeof APODO_A_NOMBRES_IC !== 'undefined'){
-      for(const apo of Object.keys(APODO_A_NOMBRES_IC)){
-        if(APODO_A_NOMBRES_IC[apo].some(v => name.includes(v))) return apo;
-      }
+    if(typeof apodoDesdeNombreIC !== 'undefined'){
+      const apo = apodoDesdeNombreIC(name);
+      if(apo) return apo;
     }
     return abrev(name);
   }
@@ -2473,6 +2478,7 @@ function renderEquipo(el){
     return e;
   }
   const ex=[
+    {num:0,apodo:"Millán",nombre:"José Millán Navarrete",licencia:"",nac:"",talla:"",desde:"2023",hasta:"2025"},
     {num:0,apodo:"Jose Luis",nombre:"Jose Luis Martín",licencia:"ACPP05134",nac:"",talla:"XXL",desde:"2023",hasta:"2024"},
     {num:0,apodo:"Juan Manuel",nombre:"Juan Manuel Pérez",licencia:"ACPP024549",nac:"",talla:"L",desde:"2023",hasta:"2024"},
     {num:0,apodo:"Aleix",nombre:"Aleix Martí Roure",licencia:"ACCP032643",nac:"",talla:"XXL",desde:"2024",hasta:"2025"},
@@ -2742,6 +2748,173 @@ function fT(){
 }
 
 
+
+
+// ══════════════════════════════════════════════════════════════════════
+// _contarHIO(acts) — FUENTE ÚNICA de holes in one.
+// Recibe actuaciones con `hoyos` (array 18) y devuelve {n, detalle[]}.
+// Un HIO es cualquier hoyo con valor 1 (todos los campos son par 3).
+// Nada hardcoded: si mañana alguien mete un 1 en HM, aparece solo.
+// ══════════════════════════════════════════════════════════════════════
+function _contarHIO(acts){
+  const detalle=[];
+  (acts||[]).forEach(a=>{
+    if(!Array.isArray(a.hoyos))return;
+    a.hoyos.forEach((v,i)=>{
+      if(v===1)detalle.push({jugador:a.jugador,campo:a.campo,fecha:a.fecha,hoyo:i+1,src:a.src});
+    });
+  });
+  detalle.sort((x,y)=>(x.fecha?.getTime()||0)-(y.fecha?.getTime()||0));
+  return {n:detalle.length, detalle};
+}
+
+// Subtítulo de la tarjeta "Holes in one" (mismo formato en SR y Global).
+function _subtituloHIO(hio){
+  if(hio.n===0)return 'ninguno aún ⛳';
+  if(hio.n===1){const d=hio.detalle[0];return d.jugador+' · '+d.campo+' H'+d.hoyo;}
+  const nombres=[...new Set(hio.detalle.map(d=>d.jugador))];
+  return nombres.join(', ');
+}
+
+
+// _popupHIO(id, hio) — markup del popup de detalle de holes in one.
+// Reutiliza el patrón de top3-popup: overlay, click fuera cierra, botón Cerrar.
+// Badge de contexto desde CTX_INFO; apodo de hoyo desde HOYO_APODOS (solo ROC 3).
+function _popupHIO(id, hio){
+  const fmtF = d => d instanceof Date
+    ? String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear()
+    : '—';
+  const filas = hio.detalle.map((d,i) => {
+    const ci = CTX_INFO[d.src] || {lbl:d.src, bg:'#f3f4f6', col:'#555'};
+    const tile = COLORS[d.jugador] || '#eee';
+    const apodo = (d.campo === 'ROC 3' && HOYO_APODOS[d.hoyo])
+      ? ' <span style="font-style:italic;color:#888">"'+HOYO_APODOS[d.hoyo].nombre+'"</span>' : '';
+    const bg = i % 2 === 0 ? '#fff7ed' : '#fff';
+    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:'+bg+';border-radius:8px;margin-bottom:4px;border:1px solid #fed7aa66">'
+      +'<div style="font-size:11px;color:#666;font-family:monospace;min-width:74px">'+fmtF(d.fecha)+'</div>'
+      +'<div style="width:22px;height:22px;border-radius:5px;background:'+tile+';display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;color:#333;flex-shrink:0">'+d.jugador.slice(0,3)+'</div>'
+      +'<div style="flex:1;font-size:12px;color:#1a1a1a"><b>'+d.jugador+'</b> · '+d.campo+' <b>H'+d.hoyo+'</b>'+apodo+'</div>'
+      +'<div style="font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;background:'+ci.bg+';color:'+ci.col+';flex-shrink:0">'+ci.lbl+'</div>'
+      +'</div>';
+  }).join('');
+  return '<div id="'+id+'" onclick="this.style.display=\'none\'" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:9999;align-items:center;justify-content:center">'
+    +'<div onclick="event.stopPropagation()" style="background:#fff;border-radius:16px;padding:20px;max-width:420px;width:90%;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,0.3)">'
+    +'<div style="font-weight:700;font-size:14px;color:#1a1a1a;margin-bottom:14px">⛳ Holes in one</div>'
+    +'<div style="max-height:400px;overflow-y:auto;padding-right:4px">'+(filas || '<div style="font-size:12px;color:#9ca3af;padding:10px 0">Ninguno aún.</div>')+'</div>'
+    +'<div onclick="document.getElementById(\''+id+'\').style.display=\'none\'" style="margin-top:14px;text-align:center;padding:8px;background:#f3f4f6;border-radius:8px;font-size:12px;color:#555;cursor:pointer">Cerrar</div>'
+    +'</div></div>';
+}
+
+// _tarjetaHIO(hio, popupId) — tarjeta KPI "Holes in one".
+// Clicable solo si hay alguno; si no, comportamiento idéntico al de siempre.
+function _tarjetaHIO(hio, popupId){
+  const clicable = hio.n > 0;
+  const sub = clicable ? _subtituloHIO(hio)+' · ver detalle' : _subtituloHIO(hio);
+  return '<div'+(clicable ? ' onclick="document.getElementById(\''+popupId+'\').style.display=\'flex\'"' : '')
+    +' style="background:#fff7ed;border-radius:12px;padding:14px 16px;border:1px solid #fed7aa'+(clicable?';cursor:pointer':'')+'">'
+    +'<div style="font-size:11px;color:#555;margin-bottom:4px">Holes in one</div>'
+    +'<div style="font-size:32px;font-weight:700;color:#ea580c;line-height:1">'+hio.n+'</div>'
+    +'<div style="font-size:10px;color:#aaa;margin-top:4px">'+sub+'</div>'
+    +'</div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// renderStatsGlobal — espejo exacto de renderStats (Super ROC) pero
+// alimentado por _recopilarActuacionesGlobal(): todas las modalidades
+// (SR, ENT, IC, torneos, ranking, copa, special) y todos los campos.
+// Misma estructura: 6 tarjetas KPI + Media por jugador + Media por fecha.
+// Nada hardcoded: jugadores desde PLAYERS, colores desde COLORS.
+// ══════════════════════════════════════════════════════════════════════
+function renderStatsGlobal(el){
+  const ACTS = _recopilarActuacionesGlobal().filter(a => a.fecha instanceof Date);
+  const fmtF = d => String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+
+  let h='<div style="max-width:600px">';
+  const totalPartidos=ACTS.length;
+  const totalHoyos=totalPartidos*18;
+  const totalBirdies=ACTS.reduce((s,a)=>s+(a.bir||0),0);
+  const totalBajopar=ACTS.filter(a=>a.delta<0).length;
+  const ratioHoyo=totalBirdies>0?(totalHoyos/totalBirdies).toFixed(1):'—';
+  const pctBajo=totalPartidos>0?((totalBajopar/totalPartidos)*100).toFixed(1):'0.0';
+  const totalJornadas=[...new Set(ACTS.map(a=>a.fecha.getTime()))].length;
+  const hio=_contarHIO(ACTS);
+  const totalHIO=hio.n;
+  const tsMin=ACTS.length?Math.min(...ACTS.map(a=>a.fecha.getTime())):null;
+  const desde=tsMin?fmtF(new Date(tsMin)):'—';
+
+  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">'
+   +'<div style="background:#f0fdf4;border-radius:12px;padding:14px 16px;border:1px solid #bbf7d0">'
+   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Total partidos</div>'
+   +'<div style="font-size:32px;font-weight:700;color:#15803d;line-height:1">'+totalPartidos+'</div>'
+   +'<div style="font-size:10px;color:#aaa;margin-top:4px">desde '+desde+'</div>'
+   +'</div>'
+   +'<div style="background:#eff6ff;border-radius:12px;padding:14px 16px;border:1px solid #bfdbfe">'
+   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Total hoyos jugados</div>'
+   +'<div style="font-size:32px;font-weight:700;color:#1d4ed8;line-height:1">'+totalHoyos.toLocaleString("es-ES")+'</div>'
+   +'<div style="font-size:10px;color:#aaa;margin-top:4px">18 hoyos × '+totalPartidos+' rondas</div>'
+   +'</div>'
+   +'<div style="background:#fefce8;border-radius:12px;padding:14px 16px;border:1px solid #fde68a">'
+   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Total birdies</div>'
+   +'<div style="font-size:32px;font-weight:700;color:#854d0e;line-height:1">'+totalBirdies+'</div>'
+   +'<div style="font-size:10px;color:#aaa;margin-top:4px">1 birdie cada '+ratioHoyo+' hoyos</div>'
+   +'</div>'
+   +'<div style="background:#f0fdf4;border-radius:12px;padding:14px 16px;border:1px solid #bbf7d0">'
+   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Rondas bajo par</div>'
+   +'<div style="font-size:32px;font-weight:700;color:#65d000;line-height:1">'+totalBajopar+'</div>'
+   +'<div style="font-size:10px;color:#aaa;margin-top:4px">'+pctBajo+'% de las rondas</div>'
+   +'</div>'
+   +'<div style="background:#fdf4ff;border-radius:12px;padding:14px 16px;border:1px solid #e9d5ff">'
+   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Jornadas disputadas</div>'
+   +'<div style="font-size:32px;font-weight:700;color:#7c3aed;line-height:1">'+totalJornadas+'</div>'
+   +'<div style="font-size:10px;color:#aaa;margin-top:4px">desde '+desde+'</div>'
+   +'</div>'
+   +_tarjetaHIO(hio,'hio-popup-global')
+   +'</div>'
+   +_popupHIO('hio-popup-global',hio);
+
+  // ── Media por jugador (partidos completados) ──
+  const sd={};
+  PLAYERS.forEach(p=>{
+    const g=ACTS.filter(a=>a.jugador===p);
+    if(!g.length)return;
+    sd[p]={
+      n:g.length,
+      avgTotal:(g.reduce((s,a)=>s+a.delta,0)/g.length).toFixed(1),
+      avgBir:(g.reduce((s,a)=>s+(a.bir||0),0)/g.length).toFixed(1),
+      avgPar:(g.reduce((s,a)=>s+(a.par||0),0)/g.length).toFixed(1),
+      avgBog:(g.reduce((s,a)=>s+(a.bog||0),0)/g.length).toFixed(1),
+      avgDbl:(g.reduce((s,a)=>s+(a.dbl||0),0)/g.length).toFixed(1),
+      best:Math.min(...g.map(a=>a.delta)),
+      worst:Math.max(...g.map(a=>a.delta)),
+      totalBir:g.reduce((s,a)=>s+(a.bir||0),0)
+    };
+  });
+  const sorted=[...PLAYERS].filter(p=>sd[p]).sort((a,b)=>parseFloat(sd[a].avgTotal)-parseFloat(sd[b].avgTotal));
+  h+=`<div style="font-weight:500;margin-bottom:8px;color:#555;font-size:12px">Media por jugador (partidos completados)</div><div style="overflow-x:auto"><table style="width:100%"><thead><tr><th style="text-align:left">Jugador</th><th>Part.</th><th>Media</th><th>Mejor</th><th>Peor</th><th>🐦med</th><th>🐦tot</th><th>✅med</th><th>❌med</th><th>❌❌med</th></tr></thead><tbody>`;
+  sorted.forEach((p,i)=>{
+    const d=sd[p];
+    const mc=parseFloat(d.avgTotal)<4?'#15803d':parseFloat(d.avgTotal)<7?'#1a1a1a':'#b91c1c';
+    h+=`<tr style="background:${i%2===0?'#fff':'#fafafa'}"><td style="background:${COLORS[p]||'#eee'};font-weight:500;color:#333">${p}</td><td style="text-align:center">${d.n}</td><td style="text-align:center;font-weight:500;color:${mc}">${parseFloat(d.avgTotal)>=0?'+'+d.avgTotal:d.avgTotal}</td><td style="text-align:center;color:#15803d">${d.best>=0?'+'+d.best:d.best}</td><td style="text-align:center;color:#b91c1c">+${d.worst}</td><td style="text-align:center;color:#854d0e">${d.avgBir}</td><td style="text-align:center;font-weight:500;color:#854d0e">${d.totalBir}</td><td style="text-align:center">${d.avgPar}</td><td style="text-align:center;color:#c2410c">${d.avgBog}</td><td style="text-align:center;color:#991b1b">${d.avgDbl}</td></tr>`;
+  });
+  h+=`</tbody></table></div>`;
+
+  // ── Media por jornada (agrupada por fecha; global no tiene nº de jornada) ──
+  const byF={};
+  ACTS.forEach(a=>{const k=a.fecha.getTime();if(!byF[k])byF[k]={ts:k,f:fmtF(a.fecha),scores:[]};byF[k].scores.push(a.delta);});
+  const jornadas=Object.values(byF).sort((a,b)=>b.ts-a.ts); // últimas primero
+  h+=`<div style="margin-top:24px;margin-bottom:8px;font-weight:600;font-size:13px;color:#1a1a1a">Media por jornada</div>`;
+  h+=`<div style="overflow-x:auto"><table style="width:100%"><thead><tr><th>Fecha</th><th>Jug.</th><th>Media</th><th>Mejor</th><th>Peor</th></tr></thead><tbody>`;
+  jornadas.forEach((j,i)=>{
+    const avg=(j.scores.reduce((s,v)=>s+v,0)/j.scores.length).toFixed(1);
+    const best=Math.min(...j.scores);
+    const worst=Math.max(...j.scores);
+    h+=`<tr style="background:${i%2===0?'#fff':'#fafafa'}"><td style="font-size:11px;color:#666">${j.f}</td><td style="text-align:center">${j.scores.length}</td><td style="text-align:center;font-weight:500;color:${parseFloat(avg)<5?'#15803d':parseFloat(avg)<8?'#1a1a1a':'#b91c1c'}">${parseFloat(avg)>=0?'+'+avg:avg}</td><td style="text-align:center;color:#15803d">${best>=0?'+'+best:best}</td><td style="text-align:center;color:#b91c1c">${worst>=0?'+'+worst:worst}</td></tr>`;
+  });
+  h+=`</tbody></table></div>`;
+  h+='</div>';
+  el.innerHTML=h;
+}
+
 function renderStats(el){
   let h='<div style="max-width:600px">';
   const totalPartidos=RAW_DATA.length;
@@ -2751,7 +2924,8 @@ function renderStats(el){
   const ratioHoyo=(totalHoyos/totalBirdies).toFixed(1);
   const pctBajo=((totalBajopar/totalPartidos)*100).toFixed(1);
   const totalJornadas=[...new Set(RAW_DATA.map(r=>r.j))].length;
-  const totalHIO=0;
+  const hio=_contarHIO(_recopilarActuacionesGlobal().filter(a=>a.src==='roc'));
+  const totalHIO=hio.n;
   h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">'
    +'<div style="background:#f0fdf4;border-radius:12px;padding:14px 16px;border:1px solid #bbf7d0">'
    +'<div style="font-size:11px;color:#555;margin-bottom:4px">Total partidos</div>'
@@ -2778,12 +2952,9 @@ function renderStats(el){
    +'<div style="font-size:32px;font-weight:700;color:#7c3aed;line-height:1">'+totalJornadas+'</div>'
    +'<div style="font-size:10px;color:#aaa;margin-top:4px">desde 14/01/2025</div>'
    +'</div>'
-   +'<div style="background:#fff7ed;border-radius:12px;padding:14px 16px;border:1px solid #fed7aa">'
-   +'<div style="font-size:11px;color:#555;margin-bottom:4px">Holes in one</div>'
-   +'<div style="font-size:32px;font-weight:700;color:#ea580c;line-height:1">'+totalHIO+'</div>'
-   +'<div style="font-size:10px;color:#aaa;margin-top:4px">ninguno aún ⛳</div>'
+   +_tarjetaHIO(hio,'hio-popup-sr')
    +'</div>'
-   +'</div>';
+   +_popupHIO('hio-popup-sr',hio);
 
   // ── Media por jugador (partidos completados) ──
   h += _renderMediaPorJugadorBlock();
@@ -4784,11 +4955,8 @@ function _recopilarActuacionesGlobal(jugador){
         if(p.ind1) indis.push({n:p.ind1[0], s:p.ind1[1]}, {n:p.ind1[2], s:p.ind1[3]});
         if(p.ind2) indis.push({n:p.ind2[0], s:p.ind2[1]}, {n:p.ind2[2], s:p.ind2[3]});
         indis.forEach(({n, s}) => {
-          // ¿Quién es este nombre? Reverse lookup en APODO_A_NOMBRES_IC.
-          let apo = null;
-          Object.keys(APODO_A_NOMBRES_IC).forEach(k => {
-            if(APODO_A_NOMBRES_IC[k].some(v => n && n.includes(v))) apo = k;
-          });
+          // ¿Quién es este nombre? EQUIPO + variantes de APODO_A_NOMBRES_IC.
+          const apo = apodoDesdeNombreIC(n);
           if(!apo) return;
           if(jugador && apo !== jugador) return;
           // ¿Tenemos hoyo a hoyo? Mira p.hm[apo]
@@ -5187,7 +5355,7 @@ function _parseFechaGlobal(str){
 }
 
 function renderHandicapGlobal(el){
-  const ACTIVOS = ["Capi","Sucio","Bofa","Finestres","Luiqui","Alvaro","Cabra","David","Manolo","Kike","Pique","Albert","Jaén"];
+  const ACTIVOS = EQUIPO.map(j => j.apodo);
   const datos = ACTIVOS.map(j => ({ jugador:j, ...calcHandicapGlobal(j) }));
 
   // Ordenar de mejor (hcp menor) a peor (hcp mayor); los sin hcp al final
@@ -6508,13 +6676,7 @@ function renderMiscelania(el){
   });
 
   if(typeof IC_DATA !== 'undefined' && typeof APODO_A_NOMBRES_IC !== 'undefined'){
-    const _apoDeNombre = n => {
-      let apo = null;
-      Object.keys(APODO_A_NOMBRES_IC).forEach(k => {
-        if(APODO_A_NOMBRES_IC[k].some(v => n && n.includes(v))) apo = k;
-      });
-      return apo;
-    };
+    const _apoDeNombre = n => apodoDesdeNombreIC(n);
     Object.values(IC_DATA).forEach(yd => {
       (yd.pruebas || []).forEach(p => {
         if(p.total === null || p.total === undefined || !p.camp) return;
@@ -6598,13 +6760,7 @@ function renderMiscelania(el){
   });
 
   if(typeof IC_DATA !== 'undefined' && typeof APODO_A_NOMBRES_IC !== 'undefined'){
-    const _apoDeNombre2 = n => {
-      let apo = null;
-      Object.keys(APODO_A_NOMBRES_IC).forEach(k => {
-        if(APODO_A_NOMBRES_IC[k].some(v => n && n.includes(v))) apo = k;
-      });
-      return apo;
-    };
+    const _apoDeNombre2 = n => apodoDesdeNombreIC(n);
     Object.values(IC_DATA).forEach(yd => {
       (yd.pruebas || []).forEach(p => {
         if(p.total === null || p.total === undefined || !p.camp) return;
@@ -7875,7 +8031,7 @@ function renderBitacora(el){
 // = misma fecha en ambos). Gana quien hizo MENOR total ese día; empate si
 // igualan. Todo dinámico desde _recopilarActuacionesGlobal (fuente única).
 // ══════════════════════════════════════════════════════════════════
-const VERSUS_JUGADORES = ["Capi","Sucio","Bofa","Finestres","Luiqui","Alvaro","Cabra","David","Manolo","Kike","Pique","Albert","Jaén"];
+const VERSUS_JUGADORES = EQUIPO.map(j => j.apodo);
 
 function _versusFechaKey(a){
   const f = a.fecha instanceof Date ? a.fecha : new Date(a.fecha);
@@ -8160,7 +8316,7 @@ function _versusHeaderHtml(selectorA, selectorB){
 // Dos versiones: SR (solo Super ROC, HM_DATA, histórico completo) y
 // Global (todos los contextos desde 01/01/2026 vía actuaciones globales).
 // ══════════════════════════════════════════════════════════════════
-const REND_JUGADORES = ["Capi","Sucio","Bofa","Finestres","Luiqui","Alvaro","Cabra","David","Manolo","Kike","Pique","Albert","Jaén"];
+const REND_JUGADORES = EQUIPO.map(j => j.apodo);
 
 // Clasifica un valor de hoyo en categoría. Devuelve índice 0..4.
 function _rendCategoria(v){
@@ -8301,22 +8457,28 @@ function renderRendimiento(el){
     'Distribución de resultados por hoyo — histórico completo del Super ROC (ROC 3)');
 }
 
-// Versión Global: todas las actuaciones desde 01/01/2026, todos los contextos.
+// Ventana móvil del Rendimiento Global: nº de actuaciones más recientes que
+// entran en el reparto de bir/par/bog/dbl. Todos los contextos cuentan.
+// Cambiar aquí el número lo cambia en el cálculo Y en el subtítulo.
+const REND_GLOBAL_VENTANA = 20;
+
+// Versión Global: las REND_GLOBAL_VENTANA últimas actuaciones, todos los contextos.
 function renderRendimientoGlobal(el){
-  const CORTE = new Date(Date.UTC(2026,0,1));
   const datos = {};
   REND_JUGADORES.forEach(j => { datos[j] = { c:[0,0,0,0,0], tot:0 }; });
   REND_JUGADORES.forEach(j => {
     const acts = (typeof _recopilarActuacionesGlobal==='function' ? _recopilarActuacionesGlobal(j) : []) || [];
+    const _ts = (a) => (a.fecha instanceof Date ? a.fecha : new Date(a.fecha)).getTime();
     const arrays = acts
-      .filter(a => !a.abandono && Array.isArray(a.hoyos) && a.hoyos.length===18
-        && (a.fecha instanceof Date ? a.fecha : new Date(a.fecha)) >= CORTE)
+      .filter(a => !a.abandono && Array.isArray(a.hoyos) && a.hoyos.length===18)
+      .sort((a,b) => _ts(b) - _ts(a))   // más reciente primero
+      .slice(0, REND_GLOBAL_VENTANA)
       .map(a => a.hoyos);
     const { c, tot } = _rendContar(arrays);
     datos[j].c = c; datos[j].tot = tot;
   });
   _rendPintar(el, datos, '📊 Rendimiento · HCP Global',
-    'Distribución de resultados por hoyo — todos los contextos desde 01/01/2026');
+    `Distribución de resultados por hoyo — últimas ${REND_GLOBAL_VENTANA} actuaciones, todos los contextos`);
 }
 
 /* ============================================================
@@ -8325,8 +8487,14 @@ function renderRendimientoGlobal(el){
    Reutiliza EQUIPO (jugadores) y CAMPOS (campos). Sin datos duplicados.
    ============================================================ */
 function renderTarjeta(el){
-  const JUGS = EQUIPO.filter(j=>j.num<=12).map(j=>j.apodo);
-  const CAMP = CAMPOS.map(c=>c.nombre_coloquial).sort((a,b)=>a.localeCompare(b,'es'));
+  const JUGS = EQUIPO.map(j=>j.apodo);
+  // Campos y recorridos: exactamente los mismos que pinta la pestaña Campos.
+  // Cada campo aporta una opción por cada entrada de su array `recorridos`
+  // (FCPP, eppa y los extra como B o Verd). Nada hardcodeado: si se añade un
+  // campo o un recorrido a CAMPOS, aparece aquí solo.
+  const CAMP = [...CAMPOS]
+    .sort((a,b)=>a.nombre_coloquial.localeCompare(b.nombre_coloquial,'ca'))
+    .map(c=>({campo:c.nombre_coloquial, recs:(c.recorridos||[]).map(r=>r.id)}));
   const logo = (document.querySelector('.htitle img')||{}).src || '';
   const p2 = n=>String(n).padStart(2,'0');
   const hoy = new Date();
@@ -8414,6 +8582,10 @@ function renderTarjeta(el){
 #tab-tarjeta .tj-out{width:100%;min-height:170px;margin-top:10px;padding:12px;border:0;border-radius:14px;
   background:#f7f8fa;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;line-height:1.55;
   color:#1e2438;resize:vertical}
+#tab-tarjeta .tj-copy{width:100%;height:44px;margin-top:8px;border:0;border-radius:14px;font-family:inherit;
+  font-size:14px;font-weight:700;background:#e6f4ef;color:#0f766e;cursor:pointer}
+#tab-tarjeta .tj-copy:disabled{background:#eef0f4;color:#a8b0bf;cursor:default}
+#tab-tarjeta .tj-copy.done{background:#0d9488;color:#fff}
 #tab-tarjeta .tj-cel:focus-visible,#tab-tarjeta button:focus-visible{outline:2px solid #1e2438;outline-offset:2px}
 </style>
 
@@ -8425,7 +8597,10 @@ function renderTarjeta(el){
       <input id="tjFecha" type="date" value="${isoHoy}">
       <select id="tjCampo">
         <option value="">Campo…</option>
-        ${CAMP.map(c=>'<option'+(c==='ROC 3'?' selected':'')+'>'+c+'</option>').join('')}
+        ${CAMP.map(c=>'<optgroup label="'+c.campo+'">'
+            +c.recs.map(r=>'<option value="'+c.campo+'|'+r+'"'
+              +(c.campo==='ROC 3'&&r==='FCPP'?' selected':'')+'>'+c.campo+' · '+r+'</option>').join('')
+          +'</optgroup>').join('')}
       </select>
     </div>
     <div class="tj-badge"><b id="tjMejor">—</b><span>MEJOR</span></div>
@@ -8463,11 +8638,35 @@ function renderTarjeta(el){
   </div>
 
   <textarea class="tj-out" id="tjOut" readonly placeholder="Al finalizar la ronda aparecerá aquí la tarjeta."></textarea>
+  <button type="button" class="tj-copy" id="tjCopy" disabled>Copiar tarjeta</button>
 
 </div>`;
 
   const $ = s => el.querySelector(s);
-  const msg=$('#tjMsg'), out=$('#tjOut');
+  const msg=$('#tjMsg'), out=$('#tjOut'), btnCopy=$('#tjCopy');
+
+  // Copia al portapapeles. navigator.clipboard falla fuera de HTTPS y en
+  // algunos navegadores móviles, así que hay fallback por selección + execCommand.
+  function copiarTarjeta(){
+    if(!out.value) return;
+    const ok = () => {
+      btnCopy.classList.add('done'); btnCopy.textContent='Copiado ✓';
+      setTimeout(()=>{ btnCopy.classList.remove('done'); btnCopy.textContent='Copiar tarjeta'; }, 1600);
+    };
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(out.value).then(ok).catch(()=>{ legacy(); });
+    } else { legacy(); }
+    function legacy(){
+      out.removeAttribute('readonly');
+      out.focus(); out.select(); out.setSelectionRange(0, out.value.length);
+      let hecho=false;
+      try{ hecho=document.execCommand('copy'); }catch(e){}
+      out.setAttribute('readonly','');
+      if(hecho) ok();
+      else { btnCopy.textContent='Selecciona y copia a mano'; setTimeout(()=>{btnCopy.textContent='Copiar tarjeta';},2200); }
+    }
+  }
+  btnCopy.addEventListener('click', copiarTarjeta);
 
   function tablaHTML(){
     if(!sel.length) return '<tr><td class="tj-empty">Sin jugadores seleccionados.</td></tr>';
@@ -8548,29 +8747,30 @@ function renderTarjeta(el){
 
   $('#tjNew').addEventListener('click',()=>{
     sel=[]; act=null; JUGS.forEach(j=>G[j]=new Array(18).fill(null));
-    out.value=''; msg.className='tj-msg'; msg.textContent=''; pinta();
+    out.value=''; btnCopy.disabled=true; msg.className='tj-msg'; msg.textContent=''; pinta();
   });
 
   $('#tjFin').addEventListener('click',()=>{
-    if(!sel.length){ msg.className='tj-msg'; msg.textContent='No hay ningún jugador en la tarjeta.'; out.value=''; return; }
-    const campo=$('#tjCampo').value;
-    if(!campo){ msg.className='tj-msg'; msg.textContent='Elige el campo.'; out.value=''; return; }
+    if(!sel.length){ msg.className='tj-msg'; msg.textContent='No hay ningún jugador en la tarjeta.'; out.value=''; btnCopy.disabled=true; return; }
+    const campoVal=$('#tjCampo').value;
+    if(!campoVal){ msg.className='tj-msg'; msg.textContent='Elige el campo.'; out.value=''; btnCopy.disabled=true; return; }
+    const [campo, recorrido] = campoVal.split('|');
     const faltan=sel.filter(j=>!completo(j));
     if(faltan.length){
       msg.className='tj-msg';
       msg.textContent='Faltan hoyos: '+faltan.map(j=>j+' ('+G[j].filter(v=>v===null).length+')').join(', ');
-      out.value=''; return;
+      out.value=''; btnCopy.disabled=true; return;
     }
     const iso=$('#tjFecha').value;
     const fecha = iso ? iso.slice(8,10)+'/'+iso.slice(5,7)+'/'+iso.slice(0,4) : '';
     const orden=[...sel].sort((a,b)=>suma(a)-suma(b));
-    const L=['=== TARJETA INICIO ===','fecha='+fecha,'campo='+campo,''];
+    const L=['=== TARJETA INICIO ===','fecha='+fecha,'campo='+campo,'recorrido='+recorrido,''];
     orden.forEach(j=>L.push('jugador='+j+' hoyos='+G[j].map(capN).join(' ')));
     L.push('=== TARJETA FIN ===');
     out.value=L.join('\n');
     msg.className='tj-msg ok'; msg.textContent='Tarjeta generada.';
-    if(navigator.clipboard) navigator.clipboard.writeText(out.value)
-      .then(()=>{msg.textContent='Tarjeta generada y copiada.';}).catch(()=>{});
+    btnCopy.disabled=false;
+    copiarTarjeta();
   });
 
   pinta();
@@ -8974,6 +9174,27 @@ const APODO_A_NOMBRES_IC = {
   Albert:    ['Albert Bedos'],
 };
 
+// Resuelve un nombre completo de tarjeta IC → apodo del equipo.
+// Base automática: nombre + primer apellido de cada ficha de EQUIPO, comparados
+// sin tildes ni mayúsculas (por eso "Alvaro Jimenez-Asenjo" encuentra a Alvaro).
+// APODO_A_NOMBRES_IC queda solo para variantes que no se derivan del nombre
+// oficial. Un fichaje nuevo NO necesita tocar nada aquí.
+function _normIC(s){
+  return (s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+}
+function apodoDesdeNombreIC(name){
+  if(!name) return null;
+  const n = _normIC(name);
+  for(const apo of Object.keys(APODO_A_NOMBRES_IC)){
+    if(APODO_A_NOMBRES_IC[apo].some(v => n.includes(_normIC(v)))) return apo;
+  }
+  for(const j of EQUIPO){
+    const t = _normIC(j.nombre).split(/\s+/);
+    if(t.length >= 2 && n.includes(t[0] + ' ' + t[1])) return j.apodo;
+  }
+  return null;
+}
+
 // Lista de entrenamientos. Para añadir uno nuevo: APPEND al final del array.
 // Declarado a scope GLOBAL para que calcHandicapGlobal pueda mezclar las jornadas
 // de entrenamiento con las de RAW e IC al calcular el hándicap.
@@ -9343,6 +9564,8 @@ const TORNEOS_DATA = [
       {j:7, fecha:'29/07/2026'},
       {j:8, fecha:'05/08/2026'},
       {j:9, fecha:'19/08/2026'},
+      {j:10, fecha:'26/08/2026'},
+      {j:11, fecha:'02/09/2026'},
     ],
     hm: {
       // J1 · 13/05/2026
@@ -9389,6 +9612,16 @@ const TORNEOS_DATA = [
       "9_Capi":   [2,4,4,4,3,3,3,2,3,4,3,2,3,3,2,3,3,3],
       "9_Albert": [3,3,3,3,3,3,3,3,3,3,3,5,3,4,3,3,5,5],
       "9_Jaén":   [3,3,3,3,2,2,4,3,3,3,4,3,3,3,3,2,3,3],
+      // J10 · 26/08/2026
+      "10_Capi":   [3,3,2,4,2,3,3,2,5,4,3,3,3,4,3,3,5,2],
+      "10_Alvaro": [3,2,3,4,3,3,3,3,3,3,4,3,4,3,3,4,4,4],
+      "10_Manolo": [3,5,3,4,4,3,3,3,3,2,4,3,3,3,4,3,3,3],
+      "10_Kike":   [4,3,3,2,4,5,5,3,3,3,3,4,2,2,3,2,3,4],
+      // J11 · 02/09/2026
+      "11_Capi":   [3,4,3,4,2,4,3,3,2,2,3,3,3,3,3,3,3,3],
+      "11_Luiqui": [3,3,4,3,3,2,3,4,3,3,4,3,3,2,3,4,3,3],
+      "11_Alvaro": [3,3,2,5,3,3,3,3,3,3,4,4,3,3,2,4,4,3],
+      "11_Jaén":   [3,3,4,4,2,4,3,3,3,3,3,3,2,2,2,2,3,2],
     },
   },
   {
@@ -9401,6 +9634,7 @@ const TORNEOS_DATA = [
       {j:1, fecha:'02/05/2026', campo:'Can Rafel'},
       {j:2, fecha:'27/06/2026', campo:'Vendrell'},
       {j:3, fecha:'11/07/2026', campo:'Teià'},
+      {j:4, fecha:'05/09/2026', campo:'Can Mascaró'},
     ],
     hm: {
       // J1 · 02/05/2026
@@ -9418,6 +9652,14 @@ const TORNEOS_DATA = [
       "3_Albert": [2,3,3,2,3,4,3,4,4,3,4,4,3,3,3,3,4,3],
       "3_Luiqui": [3,4,3,4,4,2,4,4,3,2,4,4,5,5,3,2,3,3],
       "3_Capi":   [4,4,3,3,5,3,3,4,3,4,4,3,5,5,3,3,3,4],
+      // J4 · 05/09/2026 · Can Mascaró
+      "4_Capi":      [4,3,4,2,3,3,3,3,3,3,4,4,2,3,3,3,2,3],
+      "4_Sucio":     [3,3,3,4,3,3,4,2,4,2,3,3,2,4,3,3,3,4],
+      "4_Finestres": [5,3,5,3,3,3,3,4,3,2,3,3,3,2,2,3,2,5],
+      "4_Jaén":      [2,3,3,3,3,3,3,3,3,3,4,3,4,5,3,4,3,3],
+      "4_Cabra":     [3,4,3,3,3,3,3,3,4,3,3,3,3,5,4,3,4,3],
+      "4_Albert":    [4,4,4,4,3,4,5,5,3,3,3,3,3,2,3,2,2,3],
+      "4_Luiqui":    [4,4,3,4,3,4,4,3,3,3,3,3,4,4,3,4,3,2],
     },
   },
   {
@@ -9472,6 +9714,7 @@ const SPECIAL_DATA = [
     jornadas: [
       {j:1, fecha:'22/07/2026', campo:'Can Mascaró'},
       {j:2, fecha:'27/07/2026', campo:'Can Mascaró'},
+      {j:3, fecha:'27/08/2026', campo:'Can Mascaró'},
     ],
     hm: {
       // J1 · 22/07/2026 · Can Mascaró
@@ -9483,6 +9726,12 @@ const SPECIAL_DATA = [
       "2_Finestres": [4,3,5,4,4,2,3,3,4,3,3,3,3,3,4,3,3,4],
       "2_Alvaro":    [4,4,5,3,3,3,3,4,3,2,3,3,3,3,3,4,4,4],
       "2_Cabra":     [3,5,5,3,3,5,4,3,3,4,4,3,4,3,3,5,3,3],
+      // J3 · 27/08/2026 · Can Mascaró
+      "3_Capi":   [3,4,4,3,3,4,4,3,3,3,4,3,3,3,3,4,3,3],
+      "3_Luiqui": [3,4,4,3,4,3,4,3,4,3,2,3,3,3,3,4,3,4],
+      "3_Alvaro": [4,4,3,4,3,4,3,3,3,4,3,3,3,3,3,3,3,4],
+      "3_Cabra":  [4,3,5,4,3,4,3,3,3,4,3,3,3,3,4,4,3,3],
+      "3_Jaén":   [3,4,4,2,3,3,3,3,3,3,4,3,3,3,3,3,3,2],
     },
   }
 ];
@@ -9629,7 +9878,7 @@ function _renderListaTorneos(el, DATOS, cfg){
 }
 
 (function(){
-  const ENT_JUGADORES = ["Capi","Sucio","Bofa","Finestres","Luiqui","Alvaro","Cabra","David","Manolo","Kike","Pique","Albert","Jaén"];
+  const ENT_JUGADORES = EQUIPO.map(j => j.apodo);
   const ENT_PAR_HOYO  = 3;
   const ENT_PAR_CAMPO = 54;
   const ENT_MAX_HOYO  = 5;
@@ -9834,6 +10083,7 @@ function _renderListaTorneos(el, DATOS, cfg){
         {j:2, fecha:"09/08/2026"},
         {j:3, fecha:"16/08/2026"},
         {j:4, fecha:"23/08/2026"},
+        {j:5, fecha:"30/08/2026"},
       ],
       hm: {
         // J1 · 26/07/2026
@@ -9857,6 +10107,11 @@ function _renderListaTorneos(el, DATOS, cfg){
         "4_Sucio":    [4,3,3,3,3,4,3,3,4,2,4,3,3,2,3,3,5,3],
         "4_Albert":   [4,3,3,3,4,4,3,3,5,3,3,2,5,3,4,3,3,2],
         "4_Alvaro":   [2,4,3,4,4,4,4,3,4,4,3,3,3,3,2,4,3,4],
+        // J5 · 30/08/2026
+        "5_Cabra":    [4,3,2,3,4,4,3,3,3,3,4,2,3,4,3,3,5,3],
+        "5_Albert":   [3,4,3,2,3,4,3,3,3,4,3,3,3,2,5,4,3,5],
+        "5_Capi":     [3,3,3,3,3,4,4,3,5,4,3,4,4,4,3,4,3,4],
+        "5_Bofa":     [3,3,3,3,3,4,4,3,5,3,3,3,5,5,5,4,3,4],
       },
     },
   );
@@ -10095,8 +10350,7 @@ function _renderListaTorneos(el, DATOS, cfg){
       }));
     }
     // IC
-    const variantes = (typeof APODO_A_NOMBRES_IC !== 'undefined') ? APODO_A_NOMBRES_IC[jugador] : null;
-    if(variantes && typeof IC_DATA !== 'undefined'){
+    if(typeof IC_DATA !== 'undefined'){
       Object.values(IC_DATA).forEach(yd => {
         if(!yd.pruebas) return;
         yd.pruebas.forEach(p => {
@@ -10106,7 +10360,7 @@ function _renderListaTorneos(el, DATOS, cfg){
           const indis = [];
           if(p.ind1) indis.push({n:p.ind1[0]}, {n:p.ind1[2]});
           if(p.ind2) indis.push({n:p.ind2[0]}, {n:p.ind2[2]});
-          if(indis.some(x => variantes.some(v => x.n && x.n.includes(v)))) count++;
+          if(indis.some(x => apodoDesdeNombreIC(x.n) === jugador)) count++;
         });
       });
     }
@@ -10538,8 +10792,19 @@ function _renderListaTorneos(el, DATOS, cfg){
     // Fallback (menos de 8 titulares): top 4 por subI = indis, resto parejas.
     let indis, parejas;
     if(titulares.length >= 8){
-      // Paso A — Primeros 3 INDIS por subI
-      const ordSubI = [...titulares].sort((a,b) => b.subIndi - a.subIndi);
+      // FILTRO HARD DE CAMPO PARA INDI:
+      // quien tiene 0 visitas al campo puede ser titular, pero NUNCA indi.
+      // Si no hubiera 4 titulares con datos del campo, se rellena con los que
+      // no los tienen (mejor subI) para no romper la alineacion.
+      const conCampo = titulares.filter(p => !p.sinDatosCampo);
+      const sinCampo = titulares.filter(p => p.sinDatosCampo);
+      const poolIndi = [
+        ...[...conCampo].sort((a,b) => b.subIndi - a.subIndi),
+        ...[...sinCampo].sort((a,b) => b.subIndi - a.subIndi),
+      ];
+
+      // Paso A — Primeros 3 INDIS por subI (los que han pisado el campo primero)
+      const ordSubI = poolIndi;
       const indis1a3 = ordSubI.slice(0, 3);
       const setIndis1a3 = new Set(indis1a3.map(p => p.jugador));
 
@@ -10553,8 +10818,10 @@ function _renderListaTorneos(el, DATOS, cfg){
       const resto3 = resto5.filter(p => !setParejaFuerte.has(p.jugador));
       let indi4 = null;
       let umbralAplicado = null;
+      const resto3ConCampo = resto3.filter(p => !p.sinDatosCampo);
+      const resto3Pool = resto3ConCampo.length > 0 ? resto3ConCampo : resto3;
       for(const minCampos of [3, 2, 1]){
-        const elegibles = resto3.filter(p => (p.camposDistintos || 0) >= minCampos);
+        const elegibles = resto3Pool.filter(p => (p.camposDistintos || 0) >= minCampos);
         if(elegibles.length > 0){
           indi4 = [...elegibles].sort((a,b) => b.subIndi - a.subIndi)[0];
           umbralAplicado = minCampos;
@@ -10564,7 +10831,7 @@ function _renderListaTorneos(el, DATOS, cfg){
       // Garantía de seguridad: si por alguna razón no hubo elegible, tomar
       // simplemente el mejor por subI entre los 3 sobrantes.
       if(!indi4){
-        indi4 = [...resto3].sort((a,b) => b.subIndi - a.subIndi)[0];
+        indi4 = [...resto3Pool].sort((a,b) => b.subIndi - a.subIndi)[0];
         umbralAplicado = 0;
       }
 
@@ -10583,7 +10850,10 @@ function _renderListaTorneos(el, DATOS, cfg){
       ];
     } else {
       // Fallback: menos de 8 titulares
-      const ordIndi = [...titulares].sort((a,b) => b.subIndi - a.subIndi);
+      const ordIndi = [
+        ...titulares.filter(p => !p.sinDatosCampo).sort((a,b) => b.subIndi - a.subIndi),
+        ...titulares.filter(p => p.sinDatosCampo).sort((a,b) => b.subIndi - a.subIndi),
+      ];
       indis = ordIndi.slice(0, 4).map(p => ({...p, slotScore: p.scoreTitular, slot:'indi'}));
       const indisSet = new Set(indis.map(p => p.jugador));
       parejas = titulares.filter(p => !indisSet.has(p.jugador))
@@ -10889,7 +11159,10 @@ function _renderListaTorneos(el, DATOS, cfg){
       else if(aP1 !== null) parejaGanadora = par1;
       else if(aP2 !== null) parejaGanadora = par2;
 
-      if(tres.length === 3 && parejaGanadora){
+      // Nº de individuales que puntúan en Interclubs (de los 4 que salen).
+      const TOP_INDIS = 3;
+
+      if(indisOk.length >= TOP_INDIS && parejaGanadora){
         const calcEsc = (modo) => {
           const reduce = modo === 'peor' ? Math.max : modo === 'mejor' ? Math.min : null;
           const valor = (p) => {
@@ -10900,12 +11173,20 @@ function _renderListaTorneos(el, DATOS, cfg){
             }
             return base;
           };
-          let sumaInd = 0;
-          for(const p of tres){
+          // ── Descarte del 4º indi: se recalcula EN CADA ESCENARIO ────────
+          // En Interclubs salen 4 individuales y solo puntúan los 3 mejores
+          // DEL DÍA. Por eso el descarte NO puede congelarse por media: en el
+          // escenario "peor" puede caerse un jugador distinto que en el
+          // "mejor". Se valoran los 4 candidatos y se suman los 3 mejores
+          // resultados de esa lista, que es la regla real de la competición.
+          const vals = [];
+          for(const p of indisOk){
             const v = valor(p);
-            if(v === null) return null;
-            sumaInd += v;
+            if(v !== null) vals.push(v);
           }
+          if(vals.length < TOP_INDIS) return null;
+          vals.sort((a,b) => a - b);
+          const sumaInd = vals.slice(0, TOP_INDIS).reduce((acc,v) => acc + v, 0);
           // Pareja en fourball REAL (mejor bola hoyo a hoyo) sobre jornadas compartidas:
           //   · avg   = media de los deltas fourball
           //   · peor  = peor jornada fourball (max)
@@ -10939,13 +11220,16 @@ function _renderListaTorneos(el, DATOS, cfg){
           scoreEl.innerHTML = '';
         } else {
           const pronostico = 0.6 * avg + 0.2 * peor + 0.2 * mejor;
-          const sinDatos = tres.filter(usaPrior).map(p => p.jugador);
-          const indisNombres = tres.map(p => usaPrior(p) ? p.jugador + '*' : p.jugador).join(', ');
+          const sinDatos = indisOk.filter(usaPrior).map(p => p.jugador);
+          // Se listan los 4 candidatos: el descarte real depende del escenario.
+          const indisNombres = [...indisOk]
+            .sort((a,b) => refOrden(a) - refOrden(b))
+            .map(p => usaPrior(p) ? p.jugador + '*' : p.jugador).join(', ');
           const parejaNombres = parejaGanadora.map(p => p.jugador).join(' + ');
           const aviso = sinDatos.length
             ? `\n⚠️ ${sinDatos.join(', ')} sin partidos en este campo: se estima con su HCP Global (marcados con *).`
             : '';
-          const tipPron = `Pronóstico Claudio (60% avg + 20% peor + 20% mejor)\n· Indis (3 mejores por avg): ${indisNombres}\n· Pareja: ${parejaNombres}\n· Avg: ${fmt(avg)}  ·  Peor: ${fmt(peor)}  ·  Mejor: ${fmt(mejor)}${aviso}`;
+          const tipPron = `Pronóstico Claudio (60% avg + 20% peor + 20% mejor)\n· Indis candidatos (puntúan los ${TOP_INDIS} mejores de cada escenario): ${indisNombres}\n· Pareja: ${parejaNombres}\n· Avg: ${fmt(avg)}  ·  Peor: ${fmt(peor)}  ·  Mejor: ${fmt(mejor)}${aviso}`;
 
           scoreEl.innerHTML = `
             <span class="ese-box ese-pronostico" title="${tipPron}">
@@ -12740,9 +13024,9 @@ ws.cell(row=5, column=1).fill = FILL_SECTION
 ws.cell(row=5, column=1).alignment = AL_CENTER
 
 row = 6
-# Millán (num=99) es histórico aunque esté en el array EQUIPO
-ACTIVOS = [j for j in EQUIPO if j.get('num') != 99]
-HISTORICOS = [j for j in EQUIPO if j.get('num') == 99] + EX_JUGADORES
+# Plantilla actual = EQUIPO; los ex-miembros salen del array `ex` del HTML
+ACTIVOS = list(EQUIPO)
+HISTORICOS = list(EX_JUGADORES)
 
 for j in ACTIVOS:
     ws.cell(row=row, column=1, value='Activo')
@@ -13743,8 +14027,8 @@ vals = [
     ('Filas RAW_COPA_RR', len(filas_copa), f'{len(COPA)} edición(es) de la Copa'),
     ('Bloques entrenamiento', len(ENT_DATA), 'Pestaña 07_BLOQUES_ENT'),
     ('Ediciones Copa', len(COPA), 'Pestaña 09_EDICIONES_COPA'),
-    ('Jugadores activos', 12, 'Plantilla actual'),
-    ('Jugadores históricos', 7, 'Ex-miembros (Millán + 6 del array `ex`)'),
+    ('Jugadores activos', len(EQUIPO), 'Plantilla actual'),
+    ('Jugadores históricos', len(EX_JUGADORES), 'Ex-miembros (array `ex` del HTML)'),
     ('Crónicas', len(CRONICAS), 'Insertadas como Comment en col AE de RAW_SR'),
     ('Convención RAW', 'A:G metas + H:Y hoyos + Z:AD fórmulas + AE cronica', 'Idéntica en las 6 pestañas RAW'),
     ('RAW_IC_PAREJAS — estructura', 'A:I metas (9) + J:AA hoyos (18) + AB:AF fórmulas (5) + AG cronica', 'Variante: 2 jugadores y col puntua'),
